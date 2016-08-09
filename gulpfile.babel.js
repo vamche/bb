@@ -10,7 +10,7 @@ import babelCompiler from 'babel-core/register';
 const plugins = gulpLoadPlugins();
 
 const paths = {
-  js: ['./**/*.js','./**/*.js', '!public/**'  ,'!src/**' , '!dist/**', '!node_modules/**','!js/**'],
+  js: ['./**/*.js','./**/*.js', '!public/**'  ,'!client/**' , '!dist/**', '!node_modules/**','!js/**'],
   nonJs: ['./index.html','./package.json', './.gitignore'],
   publicContent: ['./css/**','public/**'],
   tests: './server/tests/*.js'
@@ -18,8 +18,8 @@ const paths = {
 
 gulp.task('react', function () {
   return gulp.src([
-    'src/*.jsx', 'src/**/*.jsx', 'src/**/**/*.jsx',
-    'src/*.js', 'src/**/*.js', 'src/**/**/*.js'
+    'client/*.jsx', 'client/**/*.jsx', 'client/**/**/*.jsx',
+    'client/*.js', 'client/**/*.js', 'client/**/**/*.js'
   ])
   .pipe(babel({
     sourceMaps: 'inline',
@@ -31,8 +31,8 @@ gulp.task('react', function () {
 
 gulp.task('watch', function(){
   gulp.watch([
-    'src/*.jsx', 'src/**/*.jsx', 'src/**/**/*.jsx',
-    'src/*.js', 'src/**/*.js', 'src/**/**/*.js'
+    'client/*.jsx', 'client/**/*.jsx', 'client/**/**/*.jsx',
+    'client/*.js', 'client/**/*.js', 'client/**/**/*.js'
   ], ['react']);
 });
 
@@ -117,5 +117,7 @@ gulp.task('nodemon', ['copy', 'babel','react'], () =>
 
 // gulp serve for development
 gulp.task('serve', ['clean'], () => runSequence('nodemon'));
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+gulp.task('build', ['react','babel','copy']);
+
 gulp.task('default', ['react','serve']);

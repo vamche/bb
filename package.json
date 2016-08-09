@@ -1,8 +1,15 @@
 {
   "name": "blood-banl",
   "version": "1.0.0",
-  "description": "",
-  "main": "dojoConfig.js",
+  "description": "blood bank for donors and patients!",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "build": "gulp build",
+    "test": "gulp test",
+    "clean": "gulp clean"
+	"serve": "gulp"
+  },
   "author": "Vamsi Dharmavarapu <vamsi.akirah@gmail.com>",
   "license": "MIT",
   "devDependencies": {
