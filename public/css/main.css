@@ -1,0 +1,189 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: #ffffff;
+    color: #f93822;
+    font-family: "Avenir Next W00","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+#app-container {
+    height: 100%;
+    width: 100%;
+}
+
+#app-container > div {
+  height: 100%;
+  width: 100%;
+}
+
+#legend {
+    height: calc(100% - 60px);
+    overflow-y: auto;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: whitesmoke;
+    padding: 0 12px 6px 12px;
+    min-width: 200px;
+}
+
+input, label {
+    cursor: pointer;
+    margin-bottom: 4px;
+}
+
+h1{
+	font-family: Satisfy, cursive;
+	font-weight:normal;
+	font-size: 2em;
+	padding: 25px;
+}
+
+.click-legend-node {
+    cursor: pointer;
+    margin-right: 4px;
+}
+
+.inline-block-display {
+    display: inline-block;
+}
+
+.bottom-margin {
+    margin-bottom: 8px;
+}
+
+.legend-map {
+    padding: 10px 6px;
+    background-color: #ebebeb;
+    font-weight: bold;
+}
+
+.spinner {
+  margin: auto auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  text-align: center;
+
+  -webkit-animation: sk-rotate 2.0s infinite linear;
+  animation: sk-rotate 2.0s infinite linear;
+}
+
+.preloadHeader{
+    margin: 16% auto;
+    text-align: center;
+}
+.preloadTitle{
+  padding:10px;
+}
+
+@media (max-width: 480px){
+  .preloadHeader{
+    margin: 60% auto;
+  }
+}
+
+
+.dot1, .dot2 {
+  width: 60%;
+  height: 60%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background-color: #f93822;
+  border-radius: 100%;
+
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.dot2 {
+  top: auto;
+  bottom: 0;
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-rotate { 100% { -webkit-transform: rotate(360deg) }}
+@keyframes sk-rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% {
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}
+
+#info {
+  z-index: 99;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  width: 120px;
+}
+
+.list-group-item:last-child {
+     border-top-left-radius: 0px;
+     border-top-right-radius: 0px;
+     border-radius: 0px;
+}
+
+.list-group-item:last-child {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-radius: 0px;
+}
+
+.list-group-item{
+  background: rgba(0, 0, 0, 0.2);
+  border: 0px;
+  color: white;
+}
+
+.list-group-item .donor-info{
+  background: rgba(0, 0, 0, 0.0);
+  border: 0px;
+  color: black;
+}
+
+a.list-group-item, button.list-group-item {
+    color: #fff;
+}
+
+.form-control{
+  border-radius: 0px;
+}
+
+.btn{
+  border-radius: 0px;
+}
+
+.esri-popup .esri-button {
+    line-height: 1.5em
+}
+
+.esri-popup .esri-action-text{
+  padding : 10px 30px 10px 30px;
+  color: white;
+  background-color: gray;
+}
+
+a.list-group-item:focus, a.list-group-item:hover, button.list-group-item:focus, button.list-group-item:hover {
+    color: #FFF;
+    background-color: #f93822;
+    opacity: 0.8;
+}
