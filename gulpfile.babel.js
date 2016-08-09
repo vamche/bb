@@ -10,7 +10,7 @@ import babelCompiler from 'babel-core/register';
 const plugins = gulpLoadPlugins();
 
 const paths = {
-  js: ['./**/*.js','./**/*.js', '!public/**'  ,'!client/**' , '!dist/**', '!node_modules/**','!js/**'],
+  js: ['./**/*.js','./**/*.js', '!public/**'  ,'!src/**' , '!dist/**', '!node_modules/**','!js/**'],
   nonJs: ['./index.html','./package.json', './.gitignore'],
   publicContent: ['./css/**','public/**'],
   tests: './server/tests/*.js'
@@ -18,8 +18,8 @@ const paths = {
 
 gulp.task('react', function () {
   return gulp.src([
-    'client/*.jsx', 'client/**/*.jsx', 'client/**/**/*.jsx',
-    'client/*.js', 'client/**/*.js', 'client/**/**/*.js'
+    'src/*.jsx', 'src/**/*.jsx', 'src/**/**/*.jsx',
+    'src/*.js', 'src/**/*.js', 'src/**/**/*.js'
   ])
   .pipe(babel({
     sourceMaps: 'inline',
@@ -31,8 +31,8 @@ gulp.task('react', function () {
 
 gulp.task('watch', function(){
   gulp.watch([
-    'client/*.jsx', 'client/**/*.jsx', 'client/**/**/*.jsx',
-    'client/*.js', 'client/**/*.js', 'client/**/**/*.js'
+    'src/*.jsx', 'src/**/*.jsx', 'src/**/**/*.jsx',
+    'src/*.js', 'src/**/*.js', 'src/**/**/*.js'
   ], ['react']);
 });
 
@@ -93,12 +93,17 @@ gulp.task('babel', () =>
 );
 
 // Copy non-js files to dist
-gulp.task('copy', () =>
+gulp.task('copy', ['copyPublicContent'], () =>
   gulp.src(paths.nonJs)
     .pipe(plugins.newer('dist'))
     .pipe(gulp.dest('dist'))
 );
 
+gulp.task('copyPublicContent', () =>
+  gulp.src(paths.publicContent)
+    .pipe(plugins.newer('dist/public'))
+    .pipe(gulp.dest('dist/public'))
+);
 
 // Start server with restart on file changes
 gulp.task('nodemon', ['copy', 'babel','react'], () =>

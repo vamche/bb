@@ -79,9 +79,9 @@ export function createGraphicForDonor (donor){
                         });
 
     graphic.popupTemplate  = new PopupTemplate({
-                                      "title" : "Blood Donor Details",
-                                      "content" : getPopupTemplateForDonorInformation(donor),
-                                      });
+                                  "title" : "Blood Donor Details",
+                                  "content" : getPopupTemplateForDonorInformation(donor),
+                                 });
 
     return graphic;
 
@@ -116,8 +116,8 @@ export function setInitialMapView(mapRef, donorEditable){
   const view = new MapView({
       container: ReactDOM.findDOMNode(mapRef),
       map: map2D,
-      center: [78.4867, 17.3850],
-      zoom: 16,
+      center: appConstants.DEFAULT_LOCATION,
+      zoom: appConstants.DEFAULT_ZOOM_LEVEL,
       padding: {
         left: 120 // Same value as the #sidebar width in CSS
       },
@@ -127,15 +127,15 @@ export function setInitialMapView(mapRef, donorEditable){
   })
 
   // UI components
-  const search = new Search({
+  const searchWidget = new Search({
     view: view
   });
 
-  const zoom = new Zoom({
+  const zoomWidget = new Zoom({
     view: view
   });
 
-  const locate = new Locate({
+  const locateWidget = new Locate({
     view: view
   });
 
@@ -161,7 +161,7 @@ export function setInitialMapView(mapRef, donorEditable){
 
   view.on('click', () => view.popup.actions = []);
 
-  search.on("select-result", function(evt){
+  searchWidget.on("select-result", function(evt){
     view.popup.actions = [];
     view.popup.actions.push(becomeDonorAction);
     address = evt.result.name;
@@ -170,11 +170,26 @@ export function setInitialMapView(mapRef, donorEditable){
 
   });
 
+  locateWidget.on("locate", function(evt){
+    console.log(evt);
+    view.popup.title = "Your current location";
+    view.popup.content = "";
+    view.popup.location = view.center;
+    view.popup.actions = [];
+    view.popup.actions.push(becomeDonorAction);
+    view.popup.visible = true;
+
+    lat = evt.position.coords.latitude;
+    lon = evt.position.coords.longitude;
+    address = stringConstants.NO_ADDRESS_FOUND;
+
+  });
+
+
+
   // This is not working in 4.0
   map2D.on('click', function(evt){
           // Show Popup with address info
-          //console.log(evt);
-          console.log("map2D");
           if(evt.graphic){
             return;
           }
@@ -182,10 +197,6 @@ export function setInitialMapView(mapRef, donorEditable){
           lat = evt.mapPoint.getLatitude();
           lon = evt.mapPoint.getLongitude();
 
-          let mapPoint = new Point({ latitude : evt.mapPoint.x,
-                                       longitude : evt.mapPoint.y,
-                                       spatialReference : { wkid : 4326 }
-                                    });
           view.popup.location = evt.mapPoint;
           view.popup.title = "Location details!";
           view.popup.content = "...";
@@ -230,9 +241,9 @@ export function setInitialMapView(mapRef, donorEditable){
     }
   });
 
-  view.ui.add(search, "top-left");
-  view.ui.add(zoom, "bottom-left");
-  view.ui.add(locate, "bottom-left");
+  view.ui.add(searchWidget, "top-left");
+  view.ui.add(zoomWidget, "bottom-left");
+  view.ui.add(locateWidget, "bottom-left");
   store.dispatch(setInitialView(view));
   store.dispatch(setInitialGraphicsLayer(graphicsLayer));
   //return view;
@@ -454,7 +465,8 @@ export function addDonorAction(lat,lon,address,view){
                     mobileNumber: mobileNumber,
                     latitude: lat,
                     longitude: lon,
-                    ipAddress: '122.122.12.1',
+                    // default/summy ip address is sent, client's ip is recorded on server side
+                    ipAddress: '256.256.256.256',
                     address: address,
                     bloodGroup: bloodGroup
                   };

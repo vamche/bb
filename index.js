@@ -1,4 +1,3 @@
-/////////////////////////////////////////////////////////////////
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import path from 'path';
@@ -17,6 +16,13 @@ import routes from './server/routes';
 import config from './server/config/env';
 import APIError from './server/helpers/APIError';
 
+
+const app = config.app;
+const server = config.server;
+const io = config.io
+const debug = require('debug')('blood-donors:index');
+const express = config.express;
+
 // promisify mongoose
 Promise.promisifyAll(mongoose);
 
@@ -25,14 +31,6 @@ mongoose.connect(config.db, { server:  {reconnectTries: Number.MAX_VALUE} });
 mongoose.connection.on('error', () => {
   throw new Error(`unable to connect to database: ${config.db}`);
 });
-///////////////////////////////////////////////////////////////////////////////////////
-
-const app = config.app;
-const server = config.server;
-const io = config.io
-const debug = require('debug')('blood-donors:index');
-const express = config.express;
-
 
 // listen on port config.port
 server.listen(config.port, () => {
@@ -48,7 +46,6 @@ io.on('connection', (socket) => {
 });
 
 
-
 if (config.env === 'development') {
   app.use(logger('dev'));
 }
@@ -56,19 +53,16 @@ if (config.env === 'development') {
 // parse body params and attache them to req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(cookieParser());
 app.use(compress());
 app.use(methodOverride());
-
 // secure apps by setting various HTTP headers
 app.use(helmet());
-
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
 
 // enable detailed API logging in dev env
-/*if (config.env === 'development') {
+if (config.env === 'development') {
   expressWinston.requestWhitelist.push('body');
   expressWinston.responseWhitelist.push('body');
   app.use(expressWinston.logger({
@@ -77,7 +71,7 @@ app.use(cors());
     msg: 'HTTP {{req.method}} {{req.url}} {{res.statusCode}} {{res.responseTime}}ms',
     colorStatus: true 	// Color the status code (default green, 3XX cyan, 4XX yellow, 5XX red).
   }));
-}*/
+}
 
 // mount all routes on /api path
 app.use('/api', routes);

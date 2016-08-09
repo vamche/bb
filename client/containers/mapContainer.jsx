@@ -20,7 +20,6 @@ const mapStateToProps = (state) => {
 		view : state.donorsReducer.view,
 		donors : state.donorsReducer.donors,
 		filters : state.donorsReducer.filters,
-		totalCount : state.donorsReducer.totalCount,
 		donorEditable : state.donorsReducer.donorEditable
 	}
 }
