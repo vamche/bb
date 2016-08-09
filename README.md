@@ -15,6 +15,7 @@ A blood donor management system, where donors can post their contact details and
 7. Open http://localhost:3000 in browser to view the app <br/>
 8. Or Run -> npm run serve // Directly run this command after install, this will start the development serve with watch <br/>
 9. Or gulp tasks can be directly triggered <br/><br/>
+10. Run -> npm run test // For test cases
 
 <i>Missing Requirements </i> <br/>
 1. A Popup is shown to 'Become a donor?' on search or on clicking locate widget. As map CLICK event (i.e, map.on('click', function{})) is not getting triggered in ARCGIS 4.0, 
