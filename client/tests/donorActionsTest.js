@@ -34,7 +34,7 @@ const donors = [
 ];
 
 
-describe('## Donor Actions \n \n', function(){
+describe('## Donor Actions ', function(){
 
     it('# Validate getDonorsSuccess', function(){
         const action = {

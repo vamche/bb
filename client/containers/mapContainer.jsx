@@ -90,6 +90,10 @@ class MapUI extends Component {
 		} else {
 			this.state.graphicsLayer && this.state.graphicsLayer.graphics && this.state.graphicsLayer.graphics.removeAll();
 		}
+
+		if(this.props.donorEditable && this.props.donorEditable._id){
+			document.formDonor.bloodGroup.value= this.props.donorEditable.bloodGroup ;
+		}
 	}
 
 	componentWillReceiveProps(nextProps){

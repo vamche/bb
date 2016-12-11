@@ -45,7 +45,7 @@ window.dojoConfig = {
         main: 'socket.io'
     }, {
         name: 'app',
-        location: locationPath + 'dist/client',
+        location: locationPath + 'dest/client',
         main: 'main'
     }]
 };

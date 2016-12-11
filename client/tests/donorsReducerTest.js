@@ -48,7 +48,7 @@ const donors = [
 ];
 
 
-describe('## Donor Reducer \n \n', function () {
+describe('## Donor Reducer ', function () {
 
     it('# Should return initialState', function () {
         const action = { type: 'RANDOM_ACTION' };

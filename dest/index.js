@@ -91,6 +91,7 @@ _mongoose2.default.connection.on('error', function () {
 
 // listen on port config.port
 server.listen(process.env.PORT || _env2.default.port, function () {
+  console.log('server started on port ' + _env2.default.port + ' (' + _env2.default.env + ')');
   debug('server started on port ' + _env2.default.port + ' (' + _env2.default.env + ')');
 });
 
@@ -140,7 +141,6 @@ app.get("/", function (req, res) {
 });
 
 app.get("/:donorId", function (req, res) {
-  console.log(_path2.default.resolve(__dirname + '/../index.html'));
   res.sendFile(_path2.default.resolve(__dirname + '/../index.html'));
 });
 
