@@ -16,7 +16,7 @@ const FiltersList = ({ filters, onFilterClick }) => (
 )
 
 FiltersList.propTypes = {
-  filters: PropTypes.arrayOf(PropTypes.shape({
+    filters: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     selected: PropTypes.bool.isRequired,
     text: PropTypes.string.isRequired

@@ -16,7 +16,6 @@ import routes from './server/routes';
 import config from './server/config/env';
 import APIError from './server/helpers/APIError';
 
-
 const app = config.app;
 const server = config.server;
 const io = config.io

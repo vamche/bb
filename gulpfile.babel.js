@@ -13,7 +13,8 @@ const paths = {
   js: ['./**/*.js','./**/*.js', '!public/**'  ,'!client/**' , '!dist/**', '!node_modules/**','!js/**'],
   nonJs: ['./index.html','./package.json', './.gitignore'],
   publicContent: ['./css/**','public/**'],
-  tests: './server/tests/*.js'
+  serverTests: './server/tests/*.js',
+  clientTests: './client/tests/*.js'
 };
 
 gulp.task('react', function () {
@@ -57,7 +58,7 @@ gulp.task('test', ['set-env'], () => {
   let reporters;
   let exitCode = 0;
 
-  return gulp.src([paths.tests], { read: false })
+  return gulp.src([paths.serverTests, paths.clientTests], { read: false })
     .pipe(plugins.plumber())
     .pipe(plugins.mocha({
       reporter: plugins.util.env['mocha-reporter'] || 'spec',

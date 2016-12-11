@@ -1,6 +1,6 @@
 export const GEO_LOCATION_NOT_SUPPORTED = 'Geolocation is not supported by the browser.'
 export const DOCK_POPUP = 'Please dock the popup for better usability.'
-export const NO_ADDRESS_FOUND = 'No address was found for this location'
+export const NO_ADDRESS_FOUND = 'No address found for this location'
 export const FIRST_NAME_EMPTY = 'First name must be filled out'
 export const FIRST_NAME_MAX_LENGTH = 'First name cannot be more than 32 characters'
 export const FIRST_NAME_ALPHA_NUMERIC = 'First name can only contain alphanumeric characters and hypehns(-)'

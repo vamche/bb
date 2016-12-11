@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import donorsReducer from 'app/reducers/donorsReducer'
+import donorsReducer from '../reducers/donorsReducer'
 
 const AppReducers = combineReducers({
     donorsReducer

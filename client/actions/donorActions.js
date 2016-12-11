@@ -1,4 +1,4 @@
-import * as actionTypes from 'app/actions/actionTypes';
+import * as actionTypes from '../actions/actionTypes';
 
 export function getDonorsSuccess(donors){
     return{
@@ -42,19 +42,6 @@ export function toggleFilter(filterItem){
     }
 }
 
-export function setInitialView(view){
-  return{
-    type:  actionTypes.SET_INITIAL_VIEW,
-    view
-  }
-}
-
-export function setInitialGraphicsLayer(graphicsLayer){
-  return{
-    type:  actionTypes.SET_INITIAL_GRAPHICS_LAYER,
-    graphicsLayer
-  }
-}
 
 export function addDonorToList(donor){
     return{

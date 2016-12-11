@@ -7,7 +7,6 @@ const backendURL = 'api/donors';
 /**
  * Get all the donors in the visible extent
  */
-
 export function getDonors(extent){
    return axios.get(backendURL, {
                 params: {
@@ -19,7 +18,6 @@ export function getDonors(extent){
                 })
                .then(response => {
                   store.dispatch(getDonorsSuccess(response.data));
-                  console.log(response);
                   return response;
                });
 }
@@ -31,7 +29,6 @@ export function addDonor(donor, callback){
   return axios.post(backendURL, donor).then(response => {
                    store.dispatch(addDonorSuccess(response.data));
                    callback(response.data);
-                   console.log(response);
                    return response;
                 });
 
@@ -44,7 +41,6 @@ export function getDonorDetails(donorId, callback){
   return axios.get(backendURL +'/'+ donorId).then(response => {
                    store.dispatch(getDonorDetailsSuccess(response.data));
                    //callback(response.data);
-                   console.log('getDonorDetails --> ' + response);
                    return response;
                 });
 }
@@ -57,7 +53,6 @@ export function deleteDonor(donorId, callback){
   return axios.delete(backendURL +'/'+ donorId).then(response => {
                    store.dispatch(deleteDonorSuccess(response.data));
                    callback(response.data);
-                   console.log('getDonorDetails --> ' + response);
                    return response;
                 });
 }
@@ -69,7 +64,6 @@ export function updateDonor(donor, callback){
   return axios.put(backendURL +'/'+ donor._id, donor).then(response => {
                    store.dispatch(updateDonorSuccess(response.data));
                    callback(response.data);
-                   console.log('updateDonor --> ' + response);
                    return response;
                 });
 }

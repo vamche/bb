@@ -33,7 +33,6 @@ describe('## Donor APIs', () => {
           expect(res.body.bloodGroup).to.equal(donor.bloodGroup);
           expect(res.body.latitude).to.equal(donor.latitude);
           expect(res.body.longitude).to.equal(donor.longitude);
-          //expect(res.body.ipAddress).to.equal(donor.ipAddress);
           expect(res.body.address).to.equal(donor.address);
           donor = res.body;
           done();
@@ -54,7 +53,6 @@ describe('## Donor APIs', () => {
           expect(res.body.bloodGroup).to.equal(donor.bloodGroup);
           expect(res.body.latitude).to.equal(donor.latitude);
           expect(res.body.longitude).to.equal(donor.longitude);
-          //expect(res.body.ipAddress).to.equal(donor.ipAddress);
           expect(res.body.address).to.equal(donor.address);
           done();
         });
@@ -118,7 +116,6 @@ describe('## Donor APIs', () => {
           expect(res.body.bloodGroup).to.equal(donor.bloodGroup);
           expect(res.body.latitude).to.equal(donor.latitude);
           expect(res.body.longitude).to.equal(donor.longitude);
-          //expect(res.body.ipAddress).to.equal(donor.ipAddress);
           expect(res.body.address).to.equal(donor.address);
           done();
         });

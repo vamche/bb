@@ -1,10 +1,6 @@
 var origin = window.location.origin;
 var pathname = window.location.pathname;
 var locationPath = origin + pathname.replace(/\/[^\/]+$/, '') + '/';
-console.log("origin " + origin);
-console.log(pathname);
-console.log(locationPath);
-console.log(locationPath + 'node_modules/axios/dist');
 
 window.dojoConfig = {
   async: true,

@@ -18,13 +18,15 @@ import GraphicsLayer from 'esri/layers/GraphicsLayer'
 import webMercatorUtils from 'esri/geometry/support/webMercatorUtils'
 import * as appConstants from 'app/utilities/constants'
 import * as stringConstants from 'app/utilities/stringConstants'
+import * as popupActions from 'app/utilities/popupActions'
 
 import ReactDOM from 'react-dom'
 
+
+// Creates Grpahic(icon) for Donor
 export function createGraphicForDonor (donor){
     let graphic = new Graphic();
     let symbolImageSource;
-
     const showContactInfo = {
       // This text is displayed as a tooltip
       title: "Show Contact Details",
@@ -33,8 +35,6 @@ export function createGraphicForDonor (donor){
       // Sets the icon font used to style the action button
       className: "esri-icon-zoom-out-magnifying-glass"
     };
-
-
     graphic.attributes = { "donorId" : donor.id,
                            "name" : donor.firstName + ' ' + donor.lastName,
                            "bloodGroup" : donor.bloodGroup,
@@ -46,73 +46,34 @@ export function createGraphicForDonor (donor){
                           longitude: donor.longitude,
                           latitude: donor.latitude
                         });
-    switch(donor.bloodGroup) {
-      case 'A+':
-        symbolImageSource = "public/images/aplus.png";
-        break;
-      case 'B+':
-        symbolImageSource = "public/images/bplus.png";
-        break;
-      case 'AB+':
-        symbolImageSource = "public/images/abplus.png";
-        break;
-      case 'O+':
-        symbolImageSource = "public/images/oplus.png";
-        break;
-      case 'A-':
-        symbolImageSource = "public/images/aminus.png";
-        break;
-      case 'B-':
-        symbolImageSource = "public/images/bminus.png";
-        break;
-      case 'AB-':
-        symbolImageSource = "public/images/abminus.png";
-        break;
-      case 'O-':
-        symbolImageSource = "public/images/ominus.png";
-        break;
-    }
+    symbolImageSource = getBloodGroupIcon(donor);
     graphic.symbol = new PictureMarkerSymbol({
                           url: symbolImageSource,
                           width: "28px",
                           height: "33px"
                         });
-
     graphic.popupTemplate  = new PopupTemplate({
                                   "title" : "Blood Donor Details",
                                   "content" : getPopupTemplateForDonorInformation(donor),
                                  });
-
     return graphic;
-
 }
 
+// Sets the initial MapView. Attaches the events to watch. Sets the UI widgets to be displayed on Map.
 export function setInitialMapView(mapRef, donorEditable){
 
   let lat = 0;
   let lon = 0;
   let address = '';
+  let mapViewAndGraphicsLayer = {};
 
-  const becomeDonorAction = {
-    title: "Become a donor?",
-    id: "becomeDonor",
-    className: ""
-  };
-
-  const validateAndSubmitDonorAction = {
-    title: "Submit",
-    id: "addDonor",
-    className: ""
-  };
-  const resetDonorAction = {
-    title: "Reset",
-    id: "resetDonor",
-    className: ""
-  };
+  const becomeDonorAction = popupActions.becomeDonorAction;
+  const validateAndSubmitDonorAction = popupActions.validateAndSubmitDonorAction;
+  const resetDonorAction = popupActions.resetDonorAction;
 
   const map2D = new Map({
       basemap: "streets"
-  })
+  });
   const view = new MapView({
       container: ReactDOM.findDOMNode(mapRef),
       map: map2D,
@@ -124,24 +85,19 @@ export function setInitialMapView(mapRef, donorEditable){
       ui: {
             components: [] // for custom UI, empty the default UI components
           }
-  })
-
+  });
   // UI components
   const searchWidget = new Search({
     view: view
   });
-
   const zoomWidget = new Zoom({
     view: view
   });
-
   const locateWidget = new Locate({
     view: view
   });
-
   //Graphics Layer
   const graphicsLayer = new GraphicsLayer({id : 'bloodDonorsLayer'});
-
 
   view.then(function() {
       navigateToCurrentLocation(view)
@@ -159,7 +115,43 @@ export function setInitialMapView(mapRef, donorEditable){
       }
   })
 
-  view.on('click', () => view.popup.actions = []);
+  view.on('click', (evt) => {
+    view.popup.actions = [];
+    view.hitTest(evt.screenPoint).then(function(response){
+      if(response && response.results[0] && response.results[0].graphic){
+        return;
+      }else{
+        console.log("No graphic found! Show Popup!");
+        lat = evt.mapPoint.latitude;
+        lon = evt.mapPoint.longitude;
+
+        view.popup.location = evt.mapPoint;
+        view.popup.title = "Location details!";
+        view.popup.content = "...";
+        view.popup.actions = [];
+        view.popup.actions.push(becomeDonorAction);
+        view.popup.visible = true;
+        view.popup.dockEnabled = false;
+
+        const locatorTask = new Locator({
+           url: appConstants.LOCATOR_URL
+        });
+
+        locatorTask.locationToAddress(evt.mapPoint).then(function(response) {
+            // If an address is successfully found, print it to the popup's content
+            address = response.address.Match_addr;
+            console.log(address);
+            view.popup.content = address;
+            address = address;
+          }).otherwise(function(err) {
+            // If the promise fails and no result is found, print a generic message
+            // to the popup's content
+            address = stringConstants.NO_ADDRESS_FOUND;
+            view.popup.content = stringConstants.NO_ADDRESS_FOUND;
+          });
+      }
+    });
+  });
 
   searchWidget.on("select-result", function(evt){
     view.popup.actions = [];
@@ -178,6 +170,7 @@ export function setInitialMapView(mapRef, donorEditable){
     view.popup.actions = [];
     view.popup.actions.push(becomeDonorAction);
     view.popup.visible = true;
+    view.popup.dockEnabled = false;
 
     lat = evt.position.coords.latitude;
     lon = evt.position.coords.longitude;
@@ -185,52 +178,13 @@ export function setInitialMapView(mapRef, donorEditable){
 
   });
 
-
-
-  // This is not working in 4.0
-  map2D.on('click', function(evt){
-          // Show Popup with address info
-          if(evt.graphic){
-            return;
-          }
-
-          lat = evt.mapPoint.getLatitude();
-          lon = evt.mapPoint.getLongitude();
-
-          view.popup.location = evt.mapPoint;
-          view.popup.title = "Location details!";
-          view.popup.content = "...";
-          view.popup.actions = [];
-          view.popup.actions.push(becomeDonorAction);
-          view.popup.visible = true;
-
-          const locatorTask = new Locator({
-             url: appConstants.LOCATOR_URL
-          });
-
-          locatorTask.locationToAddress(evt.mapPoint).then(function(response) {
-              // If an address is successfully found, print it to the popup's content
-              address = response.address.Match_addr;
-              console.log(address);
-              view.popup.content = address;
-              address = address;
-            }).otherwise(function(err) {
-              // If the promise fails and no result is found, print a generic message
-              // to the popup's content
-              address = stringConstants.NO_ADDRESS_FOUND;
-              view.popup.content = stringConstants.NO_ADDRESS_FOUND;
-            });
-      });
-
-
-
   view.popup.on("trigger-action", function(evt){
     // If the zoom-out action is clicked, fire the zoomOut() function
     if(evt.action.id === "becomeDonor"){
-
       const addDonorForm = getPopupTemplateForAddDonor();
       view.popup.title = stringConstants.DOCK_POPUP;
       view.popup.content = addDonorForm;
+      view.popup.dockEnabled = true;
       view.popup.actions = [];
       view.popup.actions.push(resetDonorAction);
       view.popup.actions.push(validateAndSubmitDonorAction);
@@ -241,15 +195,40 @@ export function setInitialMapView(mapRef, donorEditable){
     }
   });
 
-  view.ui.add(searchWidget, "top-left");
+  view.watch("widthBreakpoint", function(newVal){
+    if (newVal === "xsmall" || newVal === "small"){
+      // clear the view's default UI components if
+      // app is used on a mobile device
+      view.ui.empty("bottom-left");
+      view.ui.add(searchWidget, "bottom-right");
+      view.padding = {
+          left: 0 // Same value as the #sidebar width in CSS
+      };
+    }else{
+      view.padding = {
+          left: 120 // Same value as the #sidebar width in CSS
+      };
+      view.ui.empty("bottom-left");
+      view.ui.add(zoomWidget, "bottom-left");
+      view.ui.add(locateWidget, "bottom-left");
+      view.ui.add(searchWidget, "bottom-left");
+    }
+  });
+
   view.ui.add(zoomWidget, "bottom-left");
   view.ui.add(locateWidget, "bottom-left");
-  store.dispatch(setInitialView(view));
-  store.dispatch(setInitialGraphicsLayer(graphicsLayer));
-  //return view;
+  view.ui.add(searchWidget, "bottom-left");
 
+
+  mapViewAndGraphicsLayer = { view : view,
+                              graphicsLayer : graphicsLayer
+                            };
+
+  return mapViewAndGraphicsLayer;
 }
 
+
+// Navigates to the currentLocation
 export function navigateToCurrentLocation(view){
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
@@ -465,8 +444,8 @@ export function addDonorAction(lat,lon,address,view){
                     mobileNumber: mobileNumber,
                     latitude: lat,
                     longitude: lon,
-                    // default/summy ip address is sent, client's ip is recorded on server side
-                    ipAddress: '256.256.256.256',
+                    // default/dummy ip address is sent, client's ip is recorded on server side
+                    ipAddress: '192.168.1.1',
                     address: address,
                     bloodGroup: bloodGroup
                   };
@@ -522,4 +501,35 @@ export function deleteDonorAction(donorId,view){
           view.popup.content = "";
           view.popup.actions = [];
       }
+}
+
+function getBloodGroupIcon(donor){
+  let symbolImageSource = "";
+  switch(donor.bloodGroup) {
+    case 'A+':
+      symbolImageSource = "public/images/aplus.png";
+      break;
+    case 'B+':
+      symbolImageSource = "public/images/bplus.png";
+      break;
+    case 'AB+':
+      symbolImageSource = "public/images/abplus.png";
+      break;
+    case 'O+':
+      symbolImageSource = "public/images/oplus.png";
+      break;
+    case 'A-':
+      symbolImageSource = "public/images/aminus.png";
+      break;
+    case 'B-':
+      symbolImageSource = "public/images/bminus.png";
+      break;
+    case 'AB-':
+      symbolImageSource = "public/images/abminus.png";
+      break;
+    case 'O-':
+      symbolImageSource = "public/images/ominus.png";
+      break;
+  }
+  return symbolImageSource;
 }

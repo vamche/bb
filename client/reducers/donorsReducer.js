@@ -1,9 +1,7 @@
-import * as types from 'app/actions/actionTypes';
+import * as types from '../actions/actionTypes';
 import _ from 'lodash';
 
 const initialState = {
-  view : {},
-  graphicsLayer : {},
   donors : [],
   filters : [
              {id: 'A+', selected: true, text: 'A+'},
@@ -15,7 +13,6 @@ const initialState = {
              {id: 'O+', selected: true, text: 'O+'},
              {id: 'O-', selected: true, text: 'O-'}
             ],
-  totalCount : 0,
   donorEditable : {}
 };
 
@@ -77,13 +74,6 @@ const donorsReducer = function(state = initialState, action) {
       let newFilters = copy(state.filters);
       newFilters[index]['selected'] = !newFilters[index]['selected'];
       return Object.assign({}, state, { filters: newFilters });
-
-    case types.SET_INITIAL_VIEW:
-      return Object.assign({}, state, {view : action.view});
-
-    case types.SET_INITIAL_GRAPHICS_LAYER:
-        return Object.assign({}, state, {graphicsLayer : action.graphicsLayer});
-
   }
 
   return state;

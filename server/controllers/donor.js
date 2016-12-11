@@ -27,7 +27,7 @@ function get(req, res) {
  * @returns {donor}
  */
 function create(req, res, next) {
-  // console.log("req" + JSON.string(req));
+  const ipAddress = req.header('x-forwarded-for') || req.connection.remoteAddress;
   const donor = new Donor({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -36,7 +36,7 @@ function create(req, res, next) {
     mobileNumber: req.body.mobileNumber,
     latitude: req.body.latitude,
     longitude: req.body.longitude,
-    ipAddress: req.ip,
+    ipAddress: ipAddress,
     address: req.body.address
   });
 

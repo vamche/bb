@@ -26,12 +26,29 @@ const mapDispatchToProps = (dispatch) => {
 
 class Info extends Component {
 
+   constructor(props){
+      super(props);
+      this.onClickFilterButton = this.onClickFilterButton.bind(this);
+   }
+
+   onClickFilterButton(){
+      let filtersDiv = this.refs.filterByBloodGroup;
+      filtersDiv.style.display = filtersDiv.style.display == '' ? 'block' : 
+                                                                (filtersDiv.style.display == 'block' ? 'none' : 'block') ;
+   }
+
     render() {
         return (
             <div id='info'>
-                <h1>Blood <br/>
-                    Bank </h1>
-                  <FiltersList filters={this.props.filters} onFilterClick={this.props.toggleFilter}/>
+                  <h1 className="logo">Blood  <br/>
+                    Bank
+                  </h1>
+                  <div ref="filterByBloodGroup" className="bloodGroupFilters">
+                    <FiltersList filters={this.props.filters} onFilterClick={this.props.toggleFilter}/>
+                  </div>
+                  <button className="btnFilter" onClick={this.onClickFilterButton}>
+                    <i className="fa fa-filter" aria-hidden="true"></i>
+                  </button>
             </div>
         )
     }

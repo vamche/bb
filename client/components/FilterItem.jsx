@@ -5,7 +5,8 @@ const FilterItem = ({ onClick, selected, text }) => (
   <ListGroupItem
     onClick={onClick}
     style={{
-      textDecoration: selected ? 'none' : 'line-through'
+      textDecoration: selected ? 'none' : 'line-through',
+      textAlign: selected ? 'left' : 'right'
     }}
   >
     {text}
