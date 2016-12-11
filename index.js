@@ -33,6 +33,7 @@ mongoose.connection.on('error', () => {
 
 // listen on port config.port
 server.listen(process.env.PORT || config.port, () => {
+  console.log(`server started on port ${config.port} (${config.env})`);
   debug(`server started on port ${config.port} (${config.env})`);
 });
 
@@ -83,7 +84,6 @@ app.get("/", function(req, res) {
 })
 
 app.get("/:donorId", function(req, res) {
-  console.log(path.resolve(__dirname + '/../index.html'));
   res.sendFile(path.resolve(__dirname + '/../index.html'));
 })
 

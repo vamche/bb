@@ -121,7 +121,6 @@ export function setInitialMapView(mapRef, donorEditable){
       if(response && response.results[0] && response.results[0].graphic){
         return;
       }else{
-        console.log("No graphic found! Show Popup!");
         lat = evt.mapPoint.latitude;
         lon = evt.mapPoint.longitude;
 
@@ -140,7 +139,6 @@ export function setInitialMapView(mapRef, donorEditable){
         locatorTask.locationToAddress(evt.mapPoint).then(function(response) {
             // If an address is successfully found, print it to the popup's content
             address = response.address.Match_addr;
-            console.log(address);
             view.popup.content = address;
             address = address;
           }).otherwise(function(err) {
@@ -163,7 +161,6 @@ export function setInitialMapView(mapRef, donorEditable){
   });
 
   locateWidget.on("locate", function(evt){
-    console.log(evt);
     view.popup.title = "Your current location";
     view.popup.content = "";
     view.popup.location = view.center;
@@ -251,6 +248,7 @@ export function navigateToCurrentLocation(view){
 					alert(stringConstants.GEO_LOCATION_NOT_SUPPORTED);
 				}
 }
+
 
 export function getPopupTemplateForDonorInformation(donor){
   return `<div>
