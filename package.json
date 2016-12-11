@@ -4,7 +4,7 @@
   "description": "blood bank for donors and patients!",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "gulp build && node dist/index.js",
     "build": "gulp build && node dist/index.js",
     "test": "gulp test",
     "clean": "gulp clean",
