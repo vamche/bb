@@ -32,7 +32,7 @@ mongoose.connection.on('error', () => {
 });
 
 // listen on port config.port
-server.listen(config.port, () => {
+server.listen(process.env.PORT || config.port, () => {
   debug(`server started on port ${config.port} (${config.env})`);
 });
 
