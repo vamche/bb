@@ -9,6 +9,7 @@ export default {
   io: io,
   server: server,
   express: express,
+  //db: 'mongodb://localhost/blood-bank-development',
   db: 'mongodb://bbuser:bbpassword@ds145245.mlab.com:45245/blooddonors',
   port: 3000
 };
