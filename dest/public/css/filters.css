@@ -1,0 +1,33 @@
+
+.btnFilter{
+    background-repeat: no-repeat;
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    padding: 2.5% 5%;    
+    bottom : 5%;
+    border: 0px;
+    display: none;
+
+    animation-name: slideFromLeft;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+    animation-duration: 0.5s;
+
+}
+
+.bloodGroupFilters{
+    display: block;
+    animation-name: slideFromLeft;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-out;
+    animation-duration: 0.5s;
+
+}
+
+@media screen and ( max-width : 600px ){
+  .btnFilter{ display: block; }
+  .bloodGroupFilters{
+      display: none;
+  }
+
+}

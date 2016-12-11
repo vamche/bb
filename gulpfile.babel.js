@@ -10,7 +10,7 @@ import babelCompiler from 'babel-core/register';
 const plugins = gulpLoadPlugins();
 
 const paths = {
-  js: ['./**/*.js','./**/*.js', '!public/**'  ,'!client/**' , '!dist/**', '!node_modules/**','!js/**'],
+  js: ['./**/*.js','./**/*.js', '!public/**'  ,'!client/**' , '!dest/**', '!node_modules/**','!js/**'],
   nonJs: ['./index.html','./package.json', './.gitignore'],
   publicContent: ['./css/**','public/**'],
   serverTests: './server/tests/*.js',
@@ -27,7 +27,7 @@ gulp.task('react', function () {
     presets: ['es2015', 'stage-0', 'react'],
     plugins: ['transform-es2015-modules-amd']
   }))
-  .pipe(gulp.dest('dist/client'));
+  .pipe(gulp.dest('dest/client'));
 });
 
 gulp.task('watch', function(){
@@ -48,9 +48,9 @@ gulp.task('set-env', () => {
   });
 });
 
-// Clean up dist directory
+// Clean up dest directory
 gulp.task('clean', () =>
-  del(['dist/**', '!dist'])
+  del(['dest/**', '!dest'])
 );
 
 // triggers mocha tests for database opertaions
@@ -81,7 +81,7 @@ gulp.task('test', ['set-env'], () => {
 // Compile ES6 to ES5 and copy to dist
 gulp.task('babel', () =>
   gulp.src([...paths.js, '!gulpfile.babel.js'], { base: '.' })
-    .pipe(plugins.newer('dist'))
+    .pipe(plugins.newer('dest'))
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.babel())
     .pipe(plugins.sourcemaps.write('.', {
@@ -90,28 +90,28 @@ gulp.task('babel', () =>
         return path.relative(file.path, __dirname);
       }
     }))
-    .pipe(gulp.dest('dist'))
+    .pipe(gulp.dest('dest'))
 );
 
-// Copy non-js files to dist
+// Copy non-js files to dest
 gulp.task('copy', ['copyPublicContent'], () =>
   gulp.src(paths.nonJs)
-    .pipe(plugins.newer('dist'))
-    .pipe(gulp.dest('dist'))
+    .pipe(plugins.newer('dest'))
+    .pipe(gulp.dest('dest'))
 );
 
 gulp.task('copyPublicContent', () =>
   gulp.src(paths.publicContent)
-    .pipe(plugins.newer('dist/public'))
-    .pipe(gulp.dest('dist/public'))
+    .pipe(plugins.newer('dest/public'))
+    .pipe(gulp.dest('dest/public'))
 );
 
 // Start server with restart on file changes
 gulp.task('nodemon', ['copy', 'babel','react'], () =>
   plugins.nodemon({
-    script: path.join('dist', 'index.js'),
+    script: path.join('dest', 'index.js'),
     ext: 'js',
-    ignore: ['node_modules/**/*.js', 'dist/**/*.js'],
+    ignore: ['node_modules/**/*.js', 'dest/**/*.js'],
     tasks: ['copy', 'babel', 'react']
   })
 );
