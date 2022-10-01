@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dest/index.js",
-    "build": "gulp build && node dest/index.js",
+    "build": "gulp build",
     "test": "gulp test",
     "clean": "gulp clean",
     "serve": "gulp"
