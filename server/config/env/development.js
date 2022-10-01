@@ -10,6 +10,6 @@ export default {
   server: server,
   express: express,
   //db: 'mongodb://localhost/blood-bank-development',
-  db: 'mongodb://bbuser:bbpassword@ds145245.mlab.com:45245/blooddonors',
+  db: 'mongodb+srv://bbuser:<password>@cluster0.u9f5g5h.mongodb.net/blooddonors?retryWrites=true&w=majority',
   port: 3000
 };
