@@ -11,7 +11,7 @@
     "serve": "gulp"
   },
   "engines": {
-    "node": "10.24.1"
+    "node": "6.9.1"
   },
   "author": "Vamsi Dharmavarapu <vamsi.akirah@gmail.com>",
   "license": "MIT",

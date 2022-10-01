@@ -9,6 +9,6 @@ export default {
   io: io,
   server: server,
   express: express,
-  db: 'mongodb+srv://bbuser:<password>@cluster0.u9f5g5h.mongodb.net/blooddonors?retryWrites=true&w=majority',
+  db: 'mongodb+srv://bbuser:bbpassword@cluster0.u9f5g5h.mongodb.net/blooddonors?retryWrites=true&w=majority',
   port: 3000
 };
