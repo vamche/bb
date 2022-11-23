@@ -71,7 +71,7 @@
     "method-override": "^2.3.5",
     "mongoose": "^4.3.7",
     "morgan": "1.7.0",
-    "nodemon": "^1.11.0",
+    "nodemon": "^2.0.20",
     "react": "^15.0.2",
     "react-bootstrap": "0.28.5",
     "react-dom": "^15.0.2",
