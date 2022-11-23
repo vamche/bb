@@ -1,7 +1,7 @@
 {
   "name": "blood-bank",
   "version": "1.0.0",
-  "description": "blood bank for donors and patients",
+  "description": "blood bank for donors and patients!",
   "main": "index.js",
   "scripts": {
     "start": "node dest/index.js",
